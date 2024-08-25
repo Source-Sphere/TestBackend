@@ -16,4 +16,10 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static("public"));
 
+//routes import
+import orgRouter from "./routes/org.routes/js";
+
+//route decleration
+app.use("/api/v1/org", orgRouter);
+
 export { app };
