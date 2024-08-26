@@ -24,10 +24,12 @@ app.use(cookieParser());
 
 import orgRouter from "./routes/org.routes.js";
 import repoRouter from "./routes/repo.routes.js";
+import userRouter from "./routes/user.routes.js";
 
 //route decleration
 //whenever user get to users route userRouter will handle from there
 app.use("/api/v1/org", orgRouter);
 app.use("/api/v1/repo", repoRouter);
+app.use("/api/v1/user", userRouter);
 
 export { app };

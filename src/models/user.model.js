@@ -25,27 +25,35 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    refreshToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-//pre hook is used to perform any action just before save
+// Pre-save hook to hash the password before saving the user
 userSchema.pre("save", async function (next) {
-  //only hash the password again on save when password is changed
+  // Only hash the password if it has been modified or is new
   if (!this.isModified("password")) return next();
 
-  this.password = bcrypt.hash(this.password, 10);
-  next();
+  try {
+    // Hash the password with a salt round of 10
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
-//this will verify the user input pass with pass stored in database
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+// Method to compare input password with the hashed password stored in the database
+userSchema.methods.isPasswordCorrect = async function (inputPassword) {
+  return await bcrypt.compare(inputPassword, this.password);
 };
 
-//this will generate access token
+// Method to generate an access token
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
@@ -60,7 +68,7 @@ userSchema.methods.generateAccessToken = function () {
   );
 };
 
-//generateRefrshToken
+// Method to generate a refresh token
 userSchema.methods.generateRefreshToken = function () {
   return jwt.sign(
     {
