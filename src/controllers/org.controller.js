@@ -63,8 +63,8 @@ const getAllOrg = asyncHandler(async (req, res) => {
   }
 
   return res
-    .status(201)
-    .json(new apiResponse(201, allOrgs, "All orgs fetched successfully"));
+    .status(200)
+    .json(new apiResponse(200, allOrgs, "All orgs fetched successfully"));
 });
 
 export { registerOrg, getAllOrg };
