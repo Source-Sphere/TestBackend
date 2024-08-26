@@ -16,17 +16,13 @@ const orgSchema = new Schema(
       unique: true,
       trim: true,
     },
-    availableRoles: {
-      type: [String],
+    desc: {
+      type: String,
       required: true,
     },
     techStack: {
       type: [String],
       required: true,
-    },
-    uploader: {
-      type: Schema.type.userId,
-      ref: "User",
     },
   },
   {
