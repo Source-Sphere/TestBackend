@@ -3,7 +3,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
-//Cors setup
+
+// CORS setup
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
@@ -11,25 +12,23 @@ app.use(
   })
 );
 
-//setting limit of data sent by user using form
+// Setting limit of data sent by user using form
 app.use(express.json({ limit: "16kb" }));
-//handling data sent by url
+// Handling data sent by URL
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-//for handling my static/public assets like image
+// For handling static/public assets like images
 app.use(express.static("public"));
-//allow us to perform crud on user browser cookies
+// Allow us to perform CRUD on user browser cookies
 app.use(cookieParser());
 
-//routes
-
+// Routes
 import orgRouter from "./routes/org.routes.js";
 import repoRouter from "./routes/repo.routes.js";
 import userRouter from "./routes/user.routes.js";
 
-//route decleration
-//whenever user get to users route userRouter will handle from there
+// Route declaration
 app.use("/api/v1/org", orgRouter);
 app.use("/api/v1/repo", repoRouter);
 app.use("/api/v1/user", userRouter);
 
-export { app };
+export default app;

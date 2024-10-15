@@ -54,17 +54,33 @@ const registerOrg = asyncHandler(async (req, res) => {
 
 //to get all orgs data
 const getAllOrg = asyncHandler(async (req, res) => {
-  const allOrgs = await Org.find();
+  try {
+    console.log("Fetching organizations from MongoDB...");
 
-  if (allOrgs.length === 0) {
+    const allOrgs = await Org.find().lean();
+
+    if (allOrgs.length === 0) {
+      console.log("No organizations found.");
+      return res
+        .status(200)
+        .json(new apiResponse(200, [], "No organizations exist"));
+    }
+
     return res
       .status(200)
-      .json(new apiResponse(200, [], "No organizations exist"));
+      .json(new apiResponse(200, allOrgs, "All orgs fetched successfully"));
+  } catch (error) {
+    console.error("Error fetching organizations: ", error);
+    return res
+      .status(500)
+      .json(
+        new apiResponse(
+          500,
+          null,
+          "An error occurred while fetching organizations"
+        )
+      );
   }
-
-  return res
-    .status(200)
-    .json(new apiResponse(200, allOrgs, "All orgs fetched successfully"));
 });
 
 export { registerOrg, getAllOrg };

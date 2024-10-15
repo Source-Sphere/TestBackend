@@ -1,0 +1,18 @@
+service: your-service-name
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    PORT: 8000
+
+functions:
+  app:
+    handler: src/handler.main
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+
+plugins:
+  - serverless-offline
