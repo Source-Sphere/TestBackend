@@ -3,6 +3,7 @@ service: your-service-name
 provider:
   name: aws
   runtime: nodejs18.x
+  region: ap-south-1
   environment:
     PORT: 8000
 
