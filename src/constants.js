@@ -1,1 +1,1 @@
-export const dbName = "JobPortal";
+export const dbName = "Organisation";
